@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SunSafe Pro — Kidney & Asthma Guard</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="blob blob-orange"></div>
+  <div class="blob blob-blue"></div>
+  <div class="blob blob-emerald"></div>
+</div>
+
+<header class="topbar">
+  <div class="brand"><div class="logo">☀️</div><div><h1>SunSafe Pro</h1><p id="location">Port Harcourt • Locating...</p></div></div>
+  <div class="live-pill"><span class="dot"></span> LIVE MONITORING</div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="hero-card uv-card">
+    <span class="eyebrow">UV INDEX</span>
+    <div class="big" id="uvVal">8.5</div>
+    <div class="risk" id="uvRisk">VERY HIGH RISK</div>
+    <div class="mini-bar"><div id="uvBar"></div></div>
+  </div>
+  <div class="hero-grid">
+    <div class="hero-card"><span class="eyebrow">TEMPERATURE</span><div class="big" id="tempVal">33°</div><span class="sub">Feels like 38° • Hot</span></div>
+    <div class="hero-card"><span class="eyebrow">HUMIDITY</span><div class="big" id="humVal">42%</div><span class="sub">Low humidity</span></div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab active" onclick="showTab('sun',this)">☀️ Sun</button>
+  <button class="tab" onclick="showTab('kidney',this)">🧬 Kidney</button>
+  <button class="tab" onclick="showTab('asthma',this)">🫁 Asthma</button>
+  <button class="tab" onclick="showTab('water',this)">💧 Water</button>
+</nav>
+
+<div id="tab-sun" class="tab-pane">
+  <div class="card premium">
+    <div class="card-head"><h3>Sun Exposure Tracker</h3><span class="badge">WHO Standard</span></div>
+    <div class="timer-wrap"><div id="timerRing" class="ring"></div><div class="timer-center"><div id="timerDisplay">00:00</div><p id="timerInfo">Safe limit: 15 min</p></div></div>
+    <div class="progress-line"><div id="timerBar"></div></div>
+    <div class="action-row"><button id="sunBtn" class="btn primary" onclick="toggleSun()">Start Monitoring</button><button class="btn ghost" onclick="resetTimer()">Reset</button></div>
+    <p class="hint">Port Harcourt peak: 11:30am - 3:30pm. Avoid direct sun then.</p>
+  </div>
+</div>
+
+<div id="tab-kidney" class="tab-pane hidden">
+  <div class="card gradient-blue">
+    <h3>🧬 Kidney Load Intelligence</h3>
+    <p class="small">Dehydration is #1 cause of kidney stones in Rivers State heat</p>
+    <div class="score-box"><div><span>Kidney Stress Score</span><strong id="kidneyScore">72/100 Moderate</strong></div><div id="kidneyCircle" class="circle">72</div></div>
+  </div>
+  <div class="card">
+    <h4>Urine Color Diagnostic — Tap yours</h4>
+    <div class="urine-grid">
+      <button class="urine" style="background:#FFFDE7" onclick="setUrine('Clear - Overhydrated',90)"></button>
+      <button class="urine active" style="background:#FFF9C4" onclick="setUrine('Pale Yellow - Perfect',20)"></button>
+      <button class="urine" style="background:#FFEB3B" onclick="setUrine('Yellow - Drink Soon',50)"></button>
+      <button class="urine" style="background:#FBC02D" onclick="setUrine('Dark Yellow - Dehydrated!',80)"></button>
+      <button class="urine" style="background:#FF8F00" onclick="setUrine('Amber - Severe!',95)"></button>
+      <button class="urine" style="background:#5D4037" onclick="setUrine('Brown - See Doctor!',100)"></button>
+    </div>
+    <div id="urineStatus" class="status ok">Status: Pale Yellow - Perfect hydration</div>
+  </div>
+  <div class="card" id="kidneyAlerts"></div>
+  <div class="card">
+    <h4>Symptom Log</h4>
+    <div class="checks"><label><input type="checkbox" id="swelling"> Swelling feet</label><label><input type="checkbox" id="fatigue"> Fatigue</label><label><input type="checkbox" id="pain"> Low back pain</label><label><input type="checkbox" id="nausea"> Nausea</label></div>
+    <button class="btn primary w-full mt-3" onclick="checkKidney()">Analyze Kidney Risk with AI</button>
+  </div>
+</div>
+
+<div id="tab-asthma" class="tab-pane hidden">
+  <div class="card gradient-emerald">
+    <h3>🫁 Asthma Air Guard</h3>
+    <div class="air-grid"><div class="air-box"><span>AQI</span><strong id="aqiVal">72</strong><small id="aqiLabel">Moderate</small></div><div class="air-box"><span>PM2.5</span><strong id="pm25">18 µg</strong><small>Harmful >35</small></div><div class="air-box"><span>PM10</span><strong id="pm10">42 µg</strong><small>Dust risk</small></div><div class="air-box"><span>O₃</span><strong id="o3">28 µg</strong><small>Ozone</small></div></div>
+  </div>
+  <div class="card"><h4>Personal Triggers</h4><div id="asthmaTriggers" class="trigger-list"></div><div id="asthmaAlert" class="alert hidden"></div></div>
+  <div class="card"><h4>Action Plan</h4><ul class="list"><li>If AQI >100: Stay indoors, close windows</li><li>If Humidity <35%: Use inhaler before going out</li><li>If Temp >34°C: Airway narrows — breathe through nose</li></ul><button class="btn emerald w-full mt-3" onclick="testAir()">Refresh Live Air Data</button></div>
+</div>
+
+<div id="tab-water" class="tab-pane hidden">
+  <div class="card center"><h3>Hydration for Kidney & Lungs</h3><div class="big" id="waterDisplay">1200 / 2500 ml</div><div class="progress-line"><div id="waterBar" style="width:48%"></div></div><p class="small">Kidneys need 2.5L in PH heat to avoid stones</p></div>
+  <div class="grid2"><button class="card btn-card" onclick="addWater(250)">🥤 +250ml</button><button class="card btn-card primary-card" onclick="addWater(500)">🍶 +500ml</button></div>
+</div>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+  </html>
